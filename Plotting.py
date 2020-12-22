@@ -3,23 +3,23 @@ import matplotlib.pyplot as plt
 from RectPatch import sph2cart1
 import math
 
-def generatePlots(noPatches, freq):
+def generatePlots(noElements, freq):
     """
-    Generates plots using csv files of each patch.
+    Generates plots using csv files of each element.
     """
-    elementField = np.empty((noPatches, 360, 90))
+    elementField = np.empty((noElements, 360, 90))
     fsp = np.full((360, 90), 1e-9 + 0j)
 
     # Generate list of element fields from saved files
-    for patchNo in range(noPatches):
-        elementField[patchNo] = np.genfromtxt('patchresult' + str(patchNo) + '.csv', delimiter=',')
+    for elementNo in range(noElements):
+        elementField[elementNo] = np.genfromtxt('./results/elementresult' + str(elementNo) + '.csv', delimiter=',')
 
     print(elementField[0])
     for theta in range(90):
         for phi in range(360):
             elementSum = 1e-9 + 0j
-            for patchNo in range(noPatches):
-                elementSum += elementField[patchNo][phi][theta]
+            for elementNo in range(noElements):
+                elementSum += elementField[elementNo][phi][theta]
 
             fsp[phi][theta] = elementSum.real
 

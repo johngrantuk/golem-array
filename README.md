@@ -1,4 +1,8 @@
 TODO
 
-requirements.txt
-Add Horn Example too.
+Split to be extensible
+- Programmatically upload all files in dir
+- Need a runAnalysis.py file
+Show Horn Example too.
+
+Add requirements.txt
