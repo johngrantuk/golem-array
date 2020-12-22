@@ -1,7 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from RectPatch import sph2cart1
 import math
+from math import cos, sin
+
+def sph2cart1(r, th, phi):
+  x = r * cos(phi) * sin(th)
+  y = r * sin(phi) * sin(th)
+  z = r * cos(th)
+
+  return x, y, z
 
 def generatePlots(noElements, freq):
     """

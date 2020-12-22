@@ -1,5 +1,6 @@
 import argparse
 import Plotting
+import os
 import numpy as np
 import asyncio
 from yapapi import Executor, Task, WorkContext
@@ -32,8 +33,8 @@ def GenerateElementArray(X_Elements, Y_Elements, ElementSpacing):
 
     return ElementArray
 
-async def main(noElements: int):
-    print("Analysing " + str(noElements) + " elements...")
+async def main(args):
+    print("Analysing " + str(args['noElements']) + " elements...")
 
     package = await vm.repo(
         image_hash="7c78a5c3da0f3ea1c03c8a87c4a1055c7d8035f2c108c4d9db443f56",
@@ -49,6 +50,11 @@ async def main(noElements: int):
             ctx.send_file('./elements/element' + str(task.data) + '.csv', "/golem/work/element.csv")
             # Sends physics file which contains freq, etc
             ctx.send_file('./elements/physics.csv', "/golem/work/physics.csv")
+
+            for file in args['files']:
+                print(f"Sending file: ./{type}/{file}")
+                ctx.send_file(f'./{type}/{file}', f"/golem/work/{file}")
+            """
             # This file calculates field for element
             ctx.send_file('runAnalysis.py', "/golem/work/runAnalysis.py")
             # Functions for a rectangular patch
@@ -56,6 +62,7 @@ async def main(noElements: int):
             # Functions for a patch array
             ctx.send_file('PatchArray.py', "/golem/work/PatchArray.py")
             ctx.send_file('ArrayFactor.py', "/golem/work/ArrayFactor.py")
+            """
             print("Files sent, running analysis...")
             # Process for element
             ctx.run("/bin/sh", "-c", f"python3 /golem/work/runAnalysis.py >> /golem/work/output.txt")
@@ -75,15 +82,16 @@ async def main(noElements: int):
         subnet_tag="community.3",
         event_consumer=log_summary(),
     ) as executor:
-        async for task in executor.submit(worker, [Task(data=elementNo) for elementNo in range(noElements)]):
+        async for task in executor.submit(worker, [Task(data=elementNo) for elementNo in range(args['noElements'])]):
             print(f"Worker Done: {task}")
 
 
         print("Golem Jobs Complete. Processing results...")
-        Plotting.generatePlots(noElements, 14e9)
+        Plotting.generatePlots(args['noElements'], args['freq'])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Design Your Own Antenna Array - Powered By Golem')
+    parser.add_argument('--type', type=str, help='Element type', default="Patch")
     parser.add_argument('--freq', type=float, help='Frequency of operation', default=14e9)
     parser.add_argument('--width', type=float, help='Width Of Patch', default=10.7e-3)
     parser.add_argument('--length', type=float, help='Length Of Patch', default=10.7e-3)
@@ -94,6 +102,7 @@ if __name__ == "__main__":
     parser.add_argument('--spacing', type=float, help='Space Between Elements', default=0.06)
     # These are the variables a user can alter to design their array
     args = parser.parse_args()
+    type = args.type
     freq = args.freq
     W = args.width
     L = args.length
@@ -114,9 +123,22 @@ if __name__ == "__main__":
     for elementNo in range(noElements):
         np.savetxt('./elements/element' + str(elementNo) + '.csv', ElementArray[elementNo], delimiter=',')
 
+    print(f"Analysing antenna type: {type}")
+    directories = os.listdir(f"./{type}")
+    """
+    for file in directories:
+        print(file)
+    """
+
+    if "runAnalysis.py" not in directories:
+        print("Antenna Scripts Must Include A runAnalysis.py")
+        sys.exit()
+
+    golemArgs = { 'noElements': noElements, 'type': type, 'files': directories, 'freq': freq }
+
     enable_default_logger()
     loop = asyncio.get_event_loop()
-    task = loop.create_task(main(noElements=noElements))
+    task = loop.create_task(main(args=golemArgs))
     try:
         asyncio.get_event_loop().run_until_complete(task)
     except (Exception, KeyboardInterrupt) as e:
