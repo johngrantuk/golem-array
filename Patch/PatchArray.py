@@ -1,4 +1,3 @@
-import argparse
 import numpy as np
 import math
 import RectPatch

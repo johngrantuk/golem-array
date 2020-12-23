@@ -50,19 +50,11 @@ async def main(args):
             ctx.send_file('./elements/element' + str(task.data) + '.csv', "/golem/work/element.csv")
             # Sends physics file which contains freq, etc
             ctx.send_file('./elements/physics.csv', "/golem/work/physics.csv")
-
+            # Send each file in element type folder. Must have an runAnalysis.py file. Allows for many different Element types to be analysed!
             for file in args['files']:
                 print(f"Sending file: ./{type}/{file}")
                 ctx.send_file(f'./{type}/{file}', f"/golem/work/{file}")
-            """
-            # This file calculates field for element
-            ctx.send_file('runAnalysis.py', "/golem/work/runAnalysis.py")
-            # Functions for a rectangular patch
-            ctx.send_file('RectPatch.py', "/golem/work/RectPatch.py")
-            # Functions for a patch array
-            ctx.send_file('PatchArray.py', "/golem/work/PatchArray.py")
-            ctx.send_file('ArrayFactor.py', "/golem/work/ArrayFactor.py")
-            """
+
             print("Files sent, running analysis...")
             # Process for element
             ctx.run("/bin/sh", "-c", f"python3 /golem/work/runAnalysis.py >> /golem/work/output.txt")
@@ -123,13 +115,15 @@ if __name__ == "__main__":
     for elementNo in range(noElements):
         np.savetxt('./elements/element' + str(elementNo) + '.csv', ElementArray[elementNo], delimiter=',')
 
-    print(f"Analysing antenna type: {type}")
+    """
+    An element 'type' must have a matching folder in root dir.
+    This folder should include all required scripts for analysing that specific element type along with a runAnalysis.py script.
+    The runAnalysis.py is a common script that will be run by each worker. The script should run the analysis for that specific element
+    (using files from element folder) and save the result in an elementresult.csv.
+    This setup allows makes this solver easily extensible to analyse many different element types without the user requiring knowledge of the Golem system.
+    """
+    print(f"Analysing element type: {type}")
     directories = os.listdir(f"./{type}")
-    """
-    for file in directories:
-        print(file)
-    """
-
     if "runAnalysis.py" not in directories:
         print("Antenna Scripts Must Include A runAnalysis.py")
         sys.exit()
