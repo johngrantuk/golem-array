@@ -2,11 +2,21 @@
 
 [Demo Video](https://www.youtube.com/watch?v=aCp4QVIi9IM&feature=youtu.be)
 
-Welcome to my Gitcoin Golem Hackathon entry. Golem Network is a cloud computing power service where everyone can develop, manage and execute workloads in an unstoppable, inexpensive and censorship-free environment.
+Welcome to my Gitcoin Golem Hackathon entry. Traditional antenna design/analysis usually relies on very expensive commercial tooling such as Ansoft HFSS which requires powerful and costly hardware for processing. This creates a high barrier of entry and even when that can be overcome collaboration is difficult due to proprietary file types and seat licensing. This project aims to overcome these issues.
 
-https://johngrant.medium.com/antenna-arrays-and-python-introduction-8e3b612ecdfb
+Using Golem to overcome the hardware barrier - [Golem Network](https://golem.network/) is a cloud computing power service where everyone can develop, manage and execute workloads in an unstoppable, inexpensive and censorship-free environment. The project makes use of this by essentially breaking down large problems (i.e. many antenna elements) into single problems (i.e. a single element) that can be run on individual Golem workers. Now anyone can run a large and complex analysis without access to a very expensive, dedicated machine.
 
-Traditional antenna design/analysis usually relies on very expensive commercial tooling such as Ansoft HFSS which usually run on very expensive machines.
+The application aims to create a foundational setup that makes it easily extensible without the user requiring knowledge of the Golem system. This make it easy for users to 'drop in' their own element types and run analysis on them. Focus can be on the antenna design rather than the Golem interaction.
+
+Collaboration and knowledge sharing can assist in learning and lead to innovation. Using the extension option anyone can contribute to build a collection of different element types that anyone can run and adapt. This could be developed further to include functionality to add different output types - i.e. more plots, tables, etc and even new solving methods, i.e. 3D Finite Element for microwave structures. A community of passionate contributors and enthusiasts leads to more innovation and can grow an applications development further than an individual can.
+
+### The Application
+
+This application is a Command Line tool that allows a user to simulate antenna patterns for an X by Y element array. For a proper introduction to Antenna Arrays and explanation of the Python code please see my series [here](https://johngrant.medium.com/antenna-arrays-and-python-introduction-8e3b612ecdfb).
+
+Each elements field is processed by a Golem worker. By default a 2x1 rectangular element array is analysed but the configuration can be changed (along with freq, patch size, etc) using various inputs - see instructions below.
+
+As explained above the goal was to make this a foundational setup so that others can easily extend it. To demonstrate this functionality there is also an example drop in of a Horn element that can be analysed instead of the patch. More details can be found below.
 
 ![Patch Array](Screenshot-Output.png)
 
@@ -60,7 +70,7 @@ An element 'type' must have a matching folder in root dir, for example the defau
 
 Some tips I found helpful:
 
-Golem Discord is very supportive if I had issues (thanks Philip from Golem for lots of initial support).
+Golem [Discord](https://discord.com/invite/y29dtcM) is very supportive if I had issues (thanks Philip from Golem for lots of initial support).
 
 Clearing yagna - Sometimes yagna would become stuck or behave funny. I found clearing it out and starting from fresh helped. Run `$ rm -rf $HOME/Library/Application\ Support/GolemFactory.yagna` then do run, init, key again.
 
@@ -141,6 +151,6 @@ Sometime useful to see your images:
 
 ## To Dos
 
-Create a user interface.
+Create a user interface - this was a bit of stretch for me this time round thanks to 🎅🎄! In an ideal world a web application could open this up even further by making it easier to run.
 
-Library of community element types and solver methods.
+Library of community element types, plotting methods and solver methods - currently anyone could create pull request to add a new element type to the Github repo. I would like it to be as easy to update the plotting options and eventually solver methods too.  
