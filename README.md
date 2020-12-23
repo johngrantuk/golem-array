@@ -8,7 +8,7 @@ https://johngrant.medium.com/antenna-arrays-and-python-introduction-8e3b612ecdfb
 
 Traditional antenna design/analysis usually relies on very expensive commercial tooling such as Ansoft HFSS which usually run on very expensive machines.
 
-![Patch Array](ScreenShot-Output.png)
+![Patch Array](Screenshot-Output.png)
 
 ## How To Run Locally
 
@@ -48,11 +48,11 @@ And finally you can run the array simulator:
 
 `$ python requestor.py`
 
-This will run the default simulation which is for a two element, where the elements are rectangular patches. If all runs successfully the output will show plots of the array pattern. It is possible to change number of elements, freq, patch width/length, to see the list of options run: `$ python requestor.py -h`
+This will run the default simulation which is for a two element array where the elements are rectangular patches. If all runs successfully the output will show plots of the array pattern. It is possible to change number of elements, freq, patch width/length, to see the list of options run: `$ python requestor.py -h`
 
 ### Extending To Other Element Types
 
-One of the main goals of this project is to create a foundational setup that makes this solver easily extensible without the user requiring knowledge of the Golem system. This allows anyone to drop in their own antenna element types (or in the future any solver) and run analysis (powered by Golem) on almost any machine.
+One of the main goals of this project is to create a foundational setup that makes this solver easily extensible without the user requiring knowledge of the Golem system. This allows anyone to drop in their own antenna element types (or in the future plotting outputs and solver types) and run analysis (powered by Golem) on almost any machine.
 
 An element 'type' must have a matching folder in root dir, for example the default type is 'Patch'. This folder should include all required scripts for analysing that specific element type along with a runAnalysis.py script. The runAnalysis.py is a common script that will be run by each worker. The script should run the analysis for that specific element (using files from element folder) and save the result in an elementresult.csv. The Horn directory demonstrates an example - replacing the patch element with a Horn element (represented by a cos q(theta) function). This example can be run using: `$ python requestor.py --type Horn`.
 
