@@ -1,6 +1,6 @@
 ## Antenna Array Design & Simulation - Powered By Golem
 
-[Demo Video](https://www.youtube.com/watch?v=aCp4QVIi9IM&feature=youtu.be)
+[Demo Video](https://youtu.be/wa4zohSWmtA)
 
 Welcome to my Gitcoin Golem Hackathon entry. Traditional antenna design/analysis usually relies on very expensive commercial tooling such as Ansoft HFSS which requires powerful and costly hardware for processing. This creates a high barrier of entry and even when that can be overcome collaboration is difficult due to proprietary file types and seat licensing. This project aims to overcome these issues.
 
@@ -73,6 +73,8 @@ Some tips I found helpful:
 Golem [Discord](https://discord.com/invite/y29dtcM) is very supportive if I had issues (thanks Philip from Golem for lots of initial support).
 
 Clearing yagna - Sometimes yagna would become stuck or behave funny. I found clearing it out and starting from fresh helped. Run `$ rm -rf $HOME/Library/Application\ Support/GolemFactory.yagna` then do run, init, key again.
+
+Running with the older version to init yagna seemed more stable to me: `$ yagna payment init -r --driver=ngnt`
 
 I found having a very basic requestor file that could be run as a check against an image helped to make sure things were running correctly. If it failed then something was wrong elsewhere (i.e. Docker image, funny yagna, etc). Maybe this will help someone:
 
