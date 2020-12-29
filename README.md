@@ -2,7 +2,7 @@
 
 [Demo Video](https://youtu.be/wa4zohSWmtA)
 
-Welcome to my Gitcoin Golem Hackathon entry. Traditional antenna design/analysis usually relies on very expensive commercial tooling such as Ansoft HFSS which requires powerful and costly hardware for processing. This creates a high barrier of entry and even when that can be overcome collaboration is difficult due to proprietary file types and seat licensing. This project aims to overcome these issues.
+Welcome to my Gitcoin Golem Hackathon entry. Traditional antenna design/analysis usually relies on very expensive commercial tooling which requires powerful and costly hardware for processing. This creates a high barrier of entry and even when that can be overcome collaboration is difficult due to proprietary file types and seat licensing. This project aims to overcome these issues.
 
 Using Golem to overcome the hardware barrier - [Golem Network](https://golem.network/) is a cloud computing power service where everyone can develop, manage and execute workloads in an unstoppable, inexpensive and censorship-free environment. The project makes use of this by essentially breaking down large problems (i.e. many antenna elements) into single problems (i.e. a single element) that can be run on individual Golem workers. Now anyone can run a large and complex analysis without access to a very expensive, dedicated machine.
 
